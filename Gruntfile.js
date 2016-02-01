@@ -16,7 +16,8 @@ module.exports = function (grunt) {
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
-    cdnify: 'grunt-google-cdn'
+    cdnify: 'grunt-google-cdn',
+    configureProxies: 'grunt-connect-proxy'
   });
 
   // Configurable paths for the application
@@ -75,11 +76,19 @@ module.exports = function (grunt) {
         hostname: 'localhost',
         livereload: 35729
       },
+        proxies: [
+                {
+                    context: '/tt',
+                    host: 'localhost',
+                    port: 8080
+                   
+                }
+            ],
       livereload: {
         options: {
           open: true,
-          middleware: function (connect) {
-            return [
+          middleware: function (connect,options) {
+            var middlewares = [
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
@@ -91,6 +100,20 @@ module.exports = function (grunt) {
               ),
               connect.static(appConfig.app)
             ];
+            if (!Array.isArray(options.base)) {
+              options.base = [options.base];
+            }
+           
+            // Setup the proxy
+            middlewares.push(require('grunt-connect-proxy/lib/utils').proxyRequest);
+ 
+            // Serve static files
+            options.base.forEach(function(base) {
+              middlewares.push(connect.static(base));
+            });
+ 
+
+            return middlewares;
           }
         }
       },
@@ -437,6 +460,7 @@ module.exports = function (grunt) {
       'wiredep',
       'concurrent:server',
       'postcss:server',
+      'configureProxies:server',
       'connect:livereload',
       'watch'
     ]);
