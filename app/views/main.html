@@ -53,21 +53,6 @@
     </div>
   </div>
 </div>
-<div class="jumbotron" ng-show="ph!==undefined">
-
-    <div ng-repeat="card in ph.cards">
-      
-      <div class="row">
-        <div class="col-md-12"> {{card.name}}</div>
-      </div>
-
-      <div class="row" ng-repeat= "(attrName, attrValue) in card.attributes">
-        <div class="col-md-6">{{attrName}}</div>
-        <div class="col-md-6">{{attrValue}}</div>
-      </div>
-    
-    </div>
-</div>
 </div>
 <div ng-show="gameWon!== undefined && gameWon" class="panel panel-success">
   <div class="panel-heading">Congratulations!</div>
