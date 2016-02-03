@@ -38,6 +38,12 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "postinstall" : "grunt build",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "grunt": "0.4.5",
+    "grunt-cli": "0.1.13"
   }
 }
