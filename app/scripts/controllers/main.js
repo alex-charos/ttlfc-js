@@ -10,7 +10,7 @@
 angular.module('ttlfcJsApp')
   .controller('MainCtrl', ['$scope', '$interval','ttService', function ($scope, $interval, ttService) {
   	$scope.player = {};
-  	$scope.player = {firstName:'Alex', lastName:'Charos', email:'realtowz@yahoo.com', uuid:''};
+  	$scope.player = {firstName:'', lastName:'', email:'', uuid:''};
   	$scope.isMyTurn;
   	//ttService.enterLobby(player);
   	$scope.per = {response:'notEntered'};
