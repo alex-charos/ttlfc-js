@@ -81,7 +81,7 @@ module.exports = function (grunt) {
         },
         constants: {
           ENV: 'development',
-          endpointBaseUrl:'https://ttlfc.herokuapp.com/tt'
+          endpointBaseUrl:'http://localhost:8080/tt'
         }
       },
       production: {
