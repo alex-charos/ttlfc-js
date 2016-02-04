@@ -13,7 +13,8 @@
       <input id="lastName"  class="form-control" type="text" ng-model="player.lastName" /> <br />
       <label for="email">E-mail </label>
       <input id="email" class="form-control" type="text" ng-model="player.email" />  <br />
-      <a class="btn btn-primary" ng-click="enterLobby(player)">Enter Lobby</a>
+      <button type="submit" class="btn btn-default" ng-click="enterLobby(player)">Enter Lobby</button>
+
     </div>
   </form>
  <div class="progress" ng-show = "per.response == 'inWaitingRoom'">
