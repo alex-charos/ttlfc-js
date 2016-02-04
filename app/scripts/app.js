@@ -16,7 +16,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'topTrumpService'
+    'topTrumpService',
+    'config'
   ])
   .config(function ($routeProvider) {
     $routeProvider

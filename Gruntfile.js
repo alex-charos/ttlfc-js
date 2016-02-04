@@ -17,7 +17,8 @@ module.exports = function (grunt) {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
     cdnify: 'grunt-google-cdn',
-    configureProxies: 'grunt-connect-proxy'
+    configureProxies: 'grunt-connect-proxy',
+    ngconstant: 'grunt-ng-constant'
   });
 
   // Configurable paths for the application
@@ -65,6 +66,32 @@ module.exports = function (grunt) {
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      }
+    },
+    //ng-constant
+    ngconstant: {
+      options: {
+        name: 'config',
+        wrap: '"use strict";\n\n{%= __ngModule %}',
+        space: '  '
+      },
+      development: {
+        options: {
+          dest: '<%= yeoman.app %>/scripts/config.js',
+        },
+        constants: {
+          ENV: 'development',
+          endpointBaseUrl:'https://ttlfc.herokuapp.com/tt'
+        }
+      },
+      production: {
+        options: {
+          dest: '<%= yeoman.dist %>/scripts/config.js',
+        },
+        constants: {
+          ENV: 'production',
+          endpointBaseUrl:'https://ttlfc.herokuapp.com/tt'
+        }
       }
     },
 
@@ -458,6 +485,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
+      'ngconstant:development',
       'concurrent:server',
       'postcss:server',
       'configureProxies:server',
@@ -483,6 +511,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'wiredep',
+    'ngconstant:production',
     'useminPrepare',
     'concurrent:dist',
     'postcss',
