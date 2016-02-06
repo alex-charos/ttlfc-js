@@ -11,7 +11,7 @@ angular.module('ttlfcJsApp')
   .controller('MainCtrl', ['$scope', '$interval','ttService', function ($scope, $interval, ttService) {
   	$scope.player = {};
   	$scope.player = {firstName:'', lastName:'', email:'', uuid:''};
-  	$scope.isMyTurn;
+  	$scope.isMyTurn = undefined;
   	//ttService.enterLobby(player);
   	$scope.per = {response:'notEntered'};
   	$scope.enterLobby = function(player) {
@@ -25,7 +25,7 @@ angular.module('ttlfcJsApp')
   			}
   			
   		});
-  	}
+  	};
 
   	$scope.startGame = function(){
   		 if (angular.isDefined(checkGame)) {
@@ -36,20 +36,20 @@ angular.module('ttlfcJsApp')
   		$scope.viewHand();
   		$scope.checkTurnPlayer();
 
-  	}
+  	};
   	$scope.startTurn = function(){
   		$scope.isMyTurn = true;
   		 if (angular.isDefined(checkTurn)) {
             $interval.cancel(checkTurn);
             checkTurn = undefined;
           }
- 		$scope.viewHand();
-  	}
+ 		 $scope.viewHand();
+  	};
   	var checkTurn;
   	$scope.checkTurnPlayer = function(){
   		checkTurn = $interval(function() {
             ttService.getPlayerTurn({gameId: $scope.gameId}, function(pl) {
-            		var missedTricks = [];
+            		
   			if (pl.trickHistory!==null && pl.trickHistory!==undefined) {
 	  			for (var i =0; i <pl.trickHistory.length; i++) {
 	  				if ($scope.lastTrick === undefined ||pl.trickHistory.id > $scope.lastTrick.id ) {
@@ -66,33 +66,33 @@ angular.module('ttlfcJsApp')
   				$scope.isMyTurn = false;
   			}
   		
-  		})
+  		});
           }, 1000);
-  	} 
+  	};
 
   	var checkGame;
   	$scope.checkGameStarted = function(){
   		checkGame = $interval(function() {
             ttService.checkStatus({playerId:$scope.player.uuid}, function(resp) {
             	$scope.per = resp;
-            	if (resp.response === "inWaitingRoom") {
-            		console.log("waiting...");
-            	} else if (resp.response === "enteredGame") {
-            		console.log("Started!");
+            	if (resp.response === 'inWaitingRoom') {
+            		console.log('waiting...');
+            	} else if (resp.response === 'enteredGame') {
+            		console.log('Started!');
             		$scope.startGame();
 
             	}
             });
           }, 1000);
-  	}
+  	};
 
   	$scope.viewHand = function(){
   		ttService.viewHand({gameId:$scope.gameId, playerId: $scope.player.uuid}, function(ph) {
   			 
   			$scope.ph = ph;
   			$scope.activeCard = $scope.ph.cards[0];
-  		})
-  	}
+  		});
+  	};
   	$scope.executeTrick = function(attrName) {
   		console.log('will execute: ' + attrName);
   		ttService.executeTrick({gameId:$scope.gameId, attribute:attrName},$scope.player, function (ret) {
@@ -102,7 +102,7 @@ angular.module('ttlfcJsApp')
   			$scope.checkTurnPlayer();
   			$scope.isMYTurn = false;
   		});
-  	}
+  	};
 
   	$scope.examineTrick = function(trick) {
 
@@ -110,16 +110,16 @@ angular.module('ttlfcJsApp')
   		console.log(trick);
   		console.log(trick.result.player.uuid);
   		console.log('i am : ' + $scope.player.uuid);
-  		if (trick.result.outcome=== "roundWin") {
+  		if (trick.result.outcome=== 'roundWin') {
   				if (trick.result.player.uuid === $scope.player.uuid) {
   					$scope.lastRoundWon = true;
   				} else {
   					$scope.lastRoundWon = false;
   				}
-  			} else if (trick.result.outcome=== "roundDraw") {
+  			} else if (trick.result.outcome=== 'roundDraw') {
   				$scope.lastRoundWon = undefined;
 
-  			} else if (trick.result.outcome === "gameWin") {
+  			} else if (trick.result.outcome === 'gameWin') {
   				$scope.gameId = undefined;
   				if (trick.result.player.uuid === $scope.player.uuid) {
   					$scope.gameWon = true;
@@ -128,7 +128,7 @@ angular.module('ttlfcJsApp')
   				}
   			}
 
-  	}
+  	};
    
 
   }]);
