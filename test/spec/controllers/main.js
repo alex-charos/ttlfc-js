@@ -17,7 +17,7 @@ describe('Controller: MainCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(MainCtrl.awesomeThings.length).toBe(3);
+  it('should have a defined default player', function () {
+    expect(MainCtrl.player).toBeUndefined();
   });
 });
