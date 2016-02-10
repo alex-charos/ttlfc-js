@@ -12,10 +12,11 @@ angular.module('ttlfcJsApp')
   	$scope.player = {};
   	$scope.player = {firstName:'', lastName:'', email:'', uuid:''};
   	$scope.isMyTurn = undefined;
-  	//ttService.enterLobby(player);
+  	
   	$scope.per = {response:'notEntered'};
   	$scope.enterLobby = function(player) {
   		ttService.enterLobby(player,function(resp) { 
+        $scope.heartbeat();
   			$scope.per = resp;
   			$scope.player.uuid = resp.playerToken;
   			if ($scope.per.response === 'enteredGame') {
@@ -26,6 +27,13 @@ angular.module('ttlfcJsApp')
   			
   		});
   	};
+    var hb;
+    $scope.heartbeat = function(){
+      hb = $interval(function() {
+            ttService.heartbeat({playerId:$scope.player.uuid});
+          }, 500);
+
+    }
 
   	$scope.startGame = function(){
   		 if (angular.isDefined(checkGame)) {
@@ -85,8 +93,7 @@ angular.module('ttlfcJsApp')
             });
           }, 1000);
   	};
-
-  	$scope.viewHand = function(){
+    $scope.viewHand = function(){
   		ttService.viewHand({gameId:$scope.gameId, playerId: $scope.player.uuid}, function(ph) {
   			 
   			$scope.ph = ph;
