@@ -12,8 +12,17 @@ angular.module('ttlfcJsApp')
   	$scope.player = {};
   	$scope.player = {firstName:'', lastName:'', email:'', uuid:''};
   	$scope.isMyTurn = undefined;
-  	
+  	$scope.waitingTables = [];
   	$scope.per = {response:'notEntered'};
+
+
+    $scope.getWaitingTables = function() {
+      ttService.getWaitingTables(function(resp) { 
+        console.log(resp);
+        
+      });
+    };
+    
   	$scope.enterLobby = function(player) {
   		ttService.enterLobby(player,function(resp) { 
         $scope.heartbeat();
@@ -136,6 +145,6 @@ angular.module('ttlfcJsApp')
   			}
 
   	};
-   
+   $scope.getWaitingTables();
 
   }]);

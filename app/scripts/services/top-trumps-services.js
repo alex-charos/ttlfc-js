@@ -8,6 +8,7 @@ topTrumpService.factory('ttService',[ '$resource','endpointBaseUrl', function($r
    		checkStatus		: {method:'GET', 	url:endpointBaseUrl+'/my-lobby-status/:playerId'},
    		getPlayerTurn	: {method:'GET', 	url:endpointBaseUrl+'/game/turn/:gameId'},
    		heartbeat		: {method:'GET', 	url:endpointBaseUrl+'/heartbeat/player/:playerId'},
-      
+ 		getWaitingTables: {method:'GET', 	url:endpointBaseUrl+'/get-waiting-tables'},
+
     });
 }]);
