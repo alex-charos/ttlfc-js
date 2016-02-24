@@ -1,0 +1,34 @@
+
+<p>
+	Hello {{player.firstName}}!
+</p>
+  <form>
+  	Create new table:
+    <div class="form-group" >
+      <label for="playersRequired">Players Required </label> 
+      <input id="playersRequired" class="form-control" type="text" ng-model="newReqTable.playersRequired" /> <br/>
+      <button type="submit" class="btn btn-default" ng-click="createTable(newReqTable)">Create Table</button>
+
+    </div>
+  </form>
+<p>
+	 <div class="panel-title"> Here are the available Tables: <span class="badge">Total: {{waitingTables.length}}</span> </div>
+	<div class="panel panel-default" >
+	  <div class=" panel-heading">
+	   
+	    <div class="row">
+	      <div class="col-md-5">Required</div>
+	      <div class="col-md-5"> Waiting</div>
+	      <div class="col-md-2">&nbsp;</div>
+	    </div> 
+	  </div>
+	  <div class="panel-body">
+
+	    <div class="row" ng-repeat= "table in waitingTables">
+	      <div class="col-md-5">{{table.playersRequired}}</div>
+	      <div class="col-md-5"> {{table.playersWaiting.length}}</div>
+	      <div class="col-md-2"><a class="btn btn-primary btn-sm" ng-show="!isPlayerInTable(table.id)" ng-click="joinTable(table)">Join!</a><a class="btn btn-primary btn-sm" ng-show="isPlayerInTable(table.id)" >Waiting...</a></div>
+	    </div>
+	  </div>
+	</div>
+</p>

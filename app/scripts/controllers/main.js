@@ -8,34 +8,14 @@
  * Controller of the ttlfcJsApp
  */
 angular.module('ttlfcJsApp')
-  .controller('MainCtrl', ['$scope', '$interval','ttService', function ($scope, $interval, ttService) {
+  .controller('MainCtrl', ['$scope', '$interval','ttService','userService', function ($scope, $interval, ttService, userService) {
   	$scope.player = {};
-  	$scope.player = {firstName:'', lastName:'', email:'', uuid:''};
+  	$scope.player = userService.user;
   	$scope.isMyTurn = undefined;
-  	$scope.waitingTables = [];
   	$scope.per = {response:'notEntered'};
+    $scope.gameId = userService.gameId;
 
 
-    $scope.getWaitingTables = function() {
-      ttService.getWaitingTables(function(resp) { 
-        console.log(resp);
-        
-      });
-    };
-    
-  	$scope.enterLobby = function(player) {
-  		ttService.enterLobby(player,function(resp) { 
-        $scope.heartbeat();
-  			$scope.per = resp;
-  			$scope.player.uuid = resp.playerToken;
-  			if ($scope.per.response === 'enteredGame') {
-  				$scope.startGame();
-  			} else {
-  				$scope.checkGameStarted();
-  			}
-  			
-  		});
-  	};
     var hb;
     $scope.heartbeat = function(){
       hb = $interval(function() {
@@ -45,11 +25,6 @@ angular.module('ttlfcJsApp')
     };
 
   	$scope.startGame = function(){
-  		 if (angular.isDefined(checkGame)) {
-            $interval.cancel(checkGame);
-            checkGame = undefined;
-          }
-  		$scope.gameId = $scope.per.gameToken;
   		$scope.viewHand();
   		$scope.checkTurnPlayer();
 
@@ -87,21 +62,7 @@ angular.module('ttlfcJsApp')
           }, 1000);
   	};
 
-  	var checkGame;
-  	$scope.checkGameStarted = function(){
-  		checkGame = $interval(function() {
-            ttService.checkStatus({playerId:$scope.player.uuid}, function(resp) {
-            	$scope.per = resp;
-            	if (resp.response === 'inWaitingRoom') {
-            		console.log('waiting...');
-            	} else if (resp.response === 'enteredGame') {
-            		console.log('Started!');
-            		$scope.startGame();
-
-            	}
-            });
-          }, 1000);
-  	};
+ 
     $scope.viewHand = function(){
   		ttService.viewHand({gameId:$scope.gameId, playerId: $scope.player.uuid}, function(ph) {
   			 
@@ -145,6 +106,7 @@ angular.module('ttlfcJsApp')
   			}
 
   	};
-   $scope.getWaitingTables();
+
+        $scope.startGame();
 
   }]);
