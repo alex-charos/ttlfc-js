@@ -42,7 +42,7 @@ angular.module('ttlfcJsApp')
             ttService.heartbeat({playerId:$scope.player.uuid});
           }, 500);
 
-    }
+    };
 
   	$scope.startGame = function(){
   		 if (angular.isDefined(checkGame)) {
