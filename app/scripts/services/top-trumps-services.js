@@ -13,6 +13,6 @@ topTrumpService.factory('ttService',[ '$resource','endpointBaseUrl', function($r
     });
 }]);
 var userService = angular.module('userService', ['ngResource']);
-userService.factory('userService',[ '$resource','endpointBaseUrl', function($resource,endpointBaseUrl) {
+userService.factory('userService',[  function() {
    return {user:undefined};
 }]);

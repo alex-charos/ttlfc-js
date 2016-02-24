@@ -12,10 +12,10 @@ angular.module('ttlfcJsApp')
                     function ($scope, $interval, $location, ttService, userService) {
   	$scope.waitingTables = [];
     $scope.player= userService.user;
-    $scope.per;
+    
 
     if (userService.user === undefined) {
-      $location.path("/");
+      $location.path('/');
     }
     $scope.createTable = function(newReqTable) {
       var per = {player: $scope.player, requestType: 'createTable', requestTable:newReqTable};
@@ -42,35 +42,35 @@ angular.module('ttlfcJsApp')
         
         if ($scope.per.response === 'enteredGame') {
           userService.gameId = resp.gameToken;
-          $location.path("/main");
+          $location.path('/main');
         } else {
           $scope.getWaitingTables();
         }
         
       });
     };
-    var hb = $interval(function() {
+    $interval(function() {
             ttService.heartbeat({playerId:$scope.player.uuid});
           }, 40000);
     
-    var  checkGame = $interval(function() {
+    $interval(function() {
            $scope.checkStatus();
           }, 4000);
      
     
-$scope.checkStatus = function(){
-   ttService.checkStatus({playerId:$scope.player.uuid}, function(resp) {
-              $scope.per = resp;
-              if (resp.response === 'inWaitingRoom') {
-                console.log('waiting...');
-              } else if (resp.response === 'enteredGame') {
-                console.log('Started!');
-                userService.gameId = resp.gameToken;
-                $location.path("/main");
+    $scope.checkStatus = function(){
+       ttService.checkStatus({playerId:$scope.player.uuid}, function(resp) {
+                  $scope.per = resp;
+                  if (resp.response === 'inWaitingRoom') {
+                    console.log('waiting...');
+                  } else if (resp.response === 'enteredGame') {
+                    console.log('Started!');
+                    userService.gameId = resp.gameToken;
+                    $location.path('/main');
 
-              }
-            });
-}
+                  }
+                });
+    };
     $scope.isPlayerInTable = function(tableId) {
       console.log('searching for table ' + tableId);
       for (var i =0; i < $scope.waitingTables.length; i++ ) {
@@ -83,7 +83,7 @@ $scope.checkStatus = function(){
         }
       }
       return false;
-    }
+    };
          
 
     $scope.getWaitingTables = function() {
