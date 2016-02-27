@@ -17,7 +17,5 @@ describe('Controller: MainCtrl', function () {
     });
   }));
 
-  it('should have a defined default player', function () {
-    expect(MainCtrl.player).toBeUndefined();
-  });
+
 });
