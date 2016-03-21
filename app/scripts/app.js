@@ -18,7 +18,7 @@ angular
     'ngTouch',
     'topTrumpService',
     'userService',
-    'config'
+    'config','directive.g+signin'
   ])
   .config(function ($routeProvider) {
     $routeProvider

@@ -18,4 +18,20 @@ angular.module('ttlfcJsApp')
       userService.user= player;
       $location.path('tables');
     };
+    $scope.$on('event:google-plus-signin-success', function (event,authResult) {
+    console.log(event);
+    console.log(authResult);
+    });
+  $scope.$on('event:google-plus-signin-failure', function (event,authResult) {
+    console.log(event);
+    console.log(authResult);
+  });
+
+
+
+
+
+//    $scope.login();
+
+
   }]);
